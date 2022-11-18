@@ -5,15 +5,19 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy of the (imaginary) stack
     steps:
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+
       - name: Publish the release to Slack
         id: publish-release
         uses: felixdv/publish-release-action@v1.2
         with:
           url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          text: "Test-test nu goed? SHA: ${{ env.GITHUB_SHA }}"
+          text: "\nSHA: ${{ github.sha }}\nRepository: ${{ github.repository }}\nRef: ${{ github.ref }}"
 
       - name: Show the Slack request data
-        run: echo "${{ toJSON(steps.publish-release.outputs.request) }}"
+        run: echo "${{ fromJSON(steps.publish-release.outputs.request) }}"
 
       - name: Show the Slack response data
-        run: echo "${{ toJSON(steps.publish-release.outputs.response) }}"
+        run: echo "${{ fromJSON(steps.publish-release.outputs.response) }}"
