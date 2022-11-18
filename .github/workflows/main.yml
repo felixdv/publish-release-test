@@ -10,7 +10,7 @@ jobs:
         uses: felixdv/publish-release-action@v1.2
         with:
           url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          text: "Test-test SHA: ${{ github.sha }}"
+          text: "Test-test nu goed? SHA: ${{ env.GITHUB_SHA }}"
 
       - name: Show the Slack request data
         run: echo "${{ toJSON(steps.publish-release.outputs.request) }}"
