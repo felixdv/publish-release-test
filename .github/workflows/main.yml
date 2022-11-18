@@ -16,14 +16,14 @@ jobs:
         uses: felixdv/publish-release-action@develop
         with:
           slackWebhookUrl: ${{ secrets.SLACK_WEBHOOK_URL }}
-          stage: ${{ env.stage }}
+          stage: ${{ env.STAGE }}
           text: ${{ github.event.head_commit.message }}
 
       - name: Show the Slack request data
         run: echo "${{ steps.publish-release.outputs.request }}"
 
       - name: Show the Slack response data
-        run: echo "${{ steps.publish-release.outputs.response }}"
+        run: echo "${{ toJson(steps.publish-release.outputs.response) }}"
 
       - name: Show the environment vars
-        run: echo "${{ steps.publish-release.outputs.environment }}"
+        run: echo "${{ toJson(steps.publish-release.outputs.environment) }}"
