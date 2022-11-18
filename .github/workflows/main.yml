@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Publish the release to Slack
         id: publish-release
-        uses: felixdv/publish-release-action@v1.1
+        uses: felixdv/publish-release-action@v1.2
         with:
           url: ${{ secrets.SLACK_WEBHOOK_URL }}
           text: 'Testing the github action. SHA: ${{ env.GITHUB_SHA }}'
