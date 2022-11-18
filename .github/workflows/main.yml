@@ -4,6 +4,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     name: Deploy of the (imaginary) stack
+    env:
+      STAGE: 'production'
     steps:
       - name: Dump GitHub context
         id: github_context_step
@@ -13,8 +15,9 @@ jobs:
         id: publish-release
         uses: felixdv/publish-release-action@develop
         with:
-          url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          text: "\nSHA: ${{ github.sha }}\nRepository: ${{ github.repository }}\nRef: ${{ github.ref }}"
+          slackWebhookUrl: ${{ secrets.SLACK_WEBHOOK_URL }}
+          stage: ${{ env.stage }}
+          text: ${{ github.event.head_commit.message }}
 
       - name: Show the Slack request data
         run: echo "${{ steps.publish-release.outputs.request }}"
@@ -22,5 +25,5 @@ jobs:
       - name: Show the Slack response data
         run: echo "${{ steps.publish-release.outputs.response }}"
 
-      - name: Show the env vars
+      - name: Show the environment vars
         run: echo "${{ steps.publish-release.outputs.environment }}"
