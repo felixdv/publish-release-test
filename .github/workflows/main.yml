@@ -11,13 +11,16 @@ jobs:
 
       - name: Publish the release to Slack
         id: publish-release
-        uses: felixdv/publish-release-action@v1.2
+        uses: felixdv/publish-release-action@develop
         with:
           url: ${{ secrets.SLACK_WEBHOOK_URL }}
           text: "\nSHA: ${{ github.sha }}\nRepository: ${{ github.repository }}\nRef: ${{ github.ref }}"
 
       - name: Show the Slack request data
-        run: echo "${{ fromJSON(steps.publish-release.outputs.request) }}"
+        run: echo "${{ steps.publish-release.outputs.request }}"
 
       - name: Show the Slack response data
-        run: echo "${{ fromJSON(steps.publish-release.outputs.response) }}"
+        run: echo "${{ steps.publish-release.outputs.response }}"
+
+      - name: Show the env vars
+        run: echo "${{ steps.publish-release.outputs.environment }}"
