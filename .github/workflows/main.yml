@@ -1,0 +1,19 @@
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy of the (imaginary) stack
+    steps:
+      - name: Publish the release to Slack
+        id: publish-release
+        uses: felixdv/publish-release-action@v1.1
+        with:
+          url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          text: 'Testing the github action. SHA: ${{ env.GITHUB_SHA }}'
+
+      - name: Show the Slack request data
+        run: echo "{{ steps.publish-release.outputs.request }}"
+
+      - name: Show the Slack response data
+        run: echo "{{ steps.publish-release.outputs.response }}"
